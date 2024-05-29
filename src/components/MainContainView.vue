@@ -1,7 +1,7 @@
 <template>
-    <div class="main-contain">
-        <MainPostViewVue />
-        <MainPostViewVue />
+    <div class="main-contain" @scroll="onScroll">
+        <MainPostViewVue v-for="(a,i) in postList" :key="i" :postData="a"/>
+        <button @click="$emit('more')">+</button>
     </div>
 
 </template>
@@ -10,6 +10,17 @@
 import MainPostViewVue from './MainPostView.vue'
 
 export default {
+    props:{
+        postList:Object,
+    },
+    methods:{
+        onScroll(event){
+            const scrollCk = event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight;
+            if (scrollCk) {
+                this.$emit('more');
+            }
+        }
+    },
     components:{
         MainPostViewVue
     }

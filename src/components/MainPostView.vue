@@ -2,28 +2,35 @@
   <div style="margin-bottom: 35px;">
     <div class="post-header">
         <div class="post-header-img">
-            <img alt="Vue 1" src="../assets/img/1.jpg">
+            <img alt="Vue 1" :src="require(`../assets/img/${postData.profileImg}`)">
         </div>
         <div class="post-header-text">
-            test
+            {{ postData.profileName }}
         </div>
     </div>
-    <div class="post-body"></div>
+    <div class="post-body" :style="{ 'background-image': `url(${backgroundImage})` }"></div>
     <div class="post-footer">
         <div class="post-footer-text">
-            <div class="post-footer-main">main-title</div>
+            <div class="post-footer-main">{{ postData.postMainTitle }}</div>
             
-            <div class="post-footer-sub">sub-title</div>
+            <div class="post-footer-sub">{{ postData.postSubTitle }}</div>
         </div>
         
-        <div class="post-footer-date">May 05 24</div>
+        <div class="post-footer-date">{{ postData.postDate }}</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-
+    props:{
+        postData:Object
+    },
+    data() {
+        return {
+        backgroundImage: require(`../assets/img/${this.postData.postImg}`) // 이미지 경로를 동적으로 설정
+        };
+    },
 }
 </script>
 
@@ -52,7 +59,6 @@ export default {
 .post-body {
     width: 100%;
     height: 300px; /* 예시 높이, 원하는 높이로 설정 */
-    background-image: url('../assets/img/2.jpg');
     background-size: cover; /* 배경 이미지를 요소에 맞게 조정 */
     background-position: center; /* 배경 이미지의 위치를 중앙으로 */
     background-repeat: no-repeat; /* 배경 이미지 반복 방지 */
