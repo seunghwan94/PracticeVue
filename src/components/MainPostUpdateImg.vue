@@ -1,8 +1,10 @@
 <template>
   <div :class="`upload-image ${filter}`" :style="{ 'background-image': `url(${uploadImg})` }"></div>
   <div class="filters">
-    <div v-for="(a) in filterList" :key="a" :class="`filter-item ${a}`" :style="{ 'background-image': `url(${uploadImg})` }" @click="$emit('filterSelect',a)"></div>
+    <div v-for="(a) in filterList" :key="a" :class="`filter-item ${a}`" :style="{ 'background-image': `url(${uploadImg})` }" @click="event_fire(a)"></div>
+    <button @click="event_fire">버튼</button>
   </div>
+  
 </template>
 
 <script>
@@ -13,6 +15,11 @@ export default {
                         "inkwell", "kelvin", "lark", "lofi", "maven", "mayfair", "moon", "nashville", "perpetua", 
                         "reyes", "rise", "slumber", "stinson", "toaster", "valencia", "walden", "willow", "xpro2"]
         }
+    },
+    methods: {
+      event_fire(a){
+        this.emitter.emit('event_fire_vue',a);
+      }
     },
     props:{
         uploadImg:String,

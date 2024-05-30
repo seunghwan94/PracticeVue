@@ -17,8 +17,16 @@
   </div>
   <div class="total-body" v-if="is_main==2">
     <MainPostUpdateTextVue :uploadImg="uploadImg" @write="write = $event" :filter="filter"/>
-  </div>
-
+  </div>sss
+{{ $store.state.name }}
+<button @click="nameChange()" >name</button>
+{{ $store.state.age }}
+<button @click="$store.commit('ageChange',10)" >age</button>
+{{ $store.state.likes }}
+<button @click="likechangevue" >like</button>
+{{ $store.state.more }}
+<button @click="$store.dispatch('getData')" >more</button>
+{{ name }}
   <div class="total-footer">
     <div></div>
     <div>      
@@ -37,6 +45,7 @@ import MainPostUpdateTextVue from './components/MainPostUpdateText.vue';
 
 import postListData from './assets/data/postList.js';
 import axios  from 'axios';
+import { mapMutations, mapState } from 'vuex';
 
 
 
@@ -49,9 +58,18 @@ export default {
       uploadImg: '',
       write:'',
       filter: '' ,
+      likes: true,
     }
   },
   methods: {
+    likechangevue(){
+      this.$store.commit('likesChange',this.likes);
+      if (this.likes){
+        this.likes=false
+      }else{
+        this.likes=true;
+      }
+    },
     publish(){
       let publishData = {
         "profileImg": "3.jpg",
@@ -59,11 +77,13 @@ export default {
         "postImg": "3.jpg",
         "postMainTitle": "testttt",
         "postSubTitle": this.write,
-        "postDate": "June 12, 2023"
+        "postDate": "June 12, 2023",
+        "filter": this.filter,
       }
       this.postListData.unshift(publishData);
       this.is_main=0;
     },
+
     more(){
       axios.get('http://127.0.0.1:5000/api/post')
       .then(response =>{
@@ -83,7 +103,21 @@ export default {
     filterSelect(a){
       console.log(a);
       this.filter=a;
-    }
+    },
+    ...mapMutations(['setMore','nameChange']),
+  },
+  computed:{
+    name(){
+      return this.$store.state.name
+    },
+    ...mapState(['name','age','likes']),
+    ...mapState({test:'name'}) // 이름 작명하고싶을 때 사용
+  },
+  mounted(){
+    this.emitter.on('event_fire_vue',(a)=>{
+      console.log(a);
+      this.filter=a;
+    })
   },
   components: {
     MainContainVue,

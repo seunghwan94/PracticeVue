@@ -8,7 +8,7 @@
             {{ postData.profileName }}
         </div>
     </div>
-    <div class="post-body" :style="{ 'background-image': `url(${backgroundImage})` }"></div>
+    <div :class="postData.filter" class="post-body" :style="{ 'background-image': `url(${backgroundImage})` }"></div>
     <div class="post-footer">
         <div class="post-footer-text">
             <div class="post-footer-main">{{ postData.postMainTitle }}</div>
